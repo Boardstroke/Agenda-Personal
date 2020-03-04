@@ -26,9 +26,6 @@ export default new Vuex.Store({
         events.push({
           id: event.id,
           name: event.name,
-          start: this.formatDate(new Date(event.data + " " + event.start), true),
-          end: this.formatDate(new Date(event.data + " " + event.end), true),
-          color: this.colors[this.rnd(0, this.colors.length - 1)]
         });
       });
       commit('setEvents', events);
