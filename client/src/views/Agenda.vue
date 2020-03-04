@@ -130,7 +130,7 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-
+    events: [],
 
     colors: [
       "blue",
