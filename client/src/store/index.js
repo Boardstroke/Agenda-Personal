@@ -10,36 +10,31 @@ export default new Vuex.Store({
 
   },
   getters:{
-
+    indexEvents(state){
+      return state.events;
+    }
   },
   mutations: {
-    setEvents(state, events){
-      state.events = events;
+    setEvents(state, event){
+      const data_inicial =  new Date(event.data + " " + event.start);
+      const data_final =  new Date(event.data + " " + event.end);
+
+      state.events.push({
+        id: event.id,
+        name: event.name,
+        start: `${data_inicial.getFullYear()}-${data_inicial.getMonth() +1}-${data_inicial.getDate()} ${data_inicial.getHours()}:${data_inicial.getMinutes()}`,
+        end: `${data_final.getFullYear()}-${data_final.getMonth() +1}-${data_final.getDate()} ${data_final.getHours()}:${data_final.getMinutes()}`,
+        color: 'blue'
+      });
     }
   },
   actions: {
     async updateEvents({commit}){
-      let events = [];
       let snapshot = (await EventoService.index()).data;
 
       snapshot.forEach(event => {
-        events.push({
-          id: event.id,
-          name: event.name,
-        });
+        commit('setEvents', event);
       });
-      commit('setEvents', events);
     },
-
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-
-    formatDate(a, withTime) {
-      return withTime
-        ? `${a.getFullYear()}-${a.getMonth() +
-            1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
-    }
   },
 });

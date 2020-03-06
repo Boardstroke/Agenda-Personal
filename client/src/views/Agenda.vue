@@ -62,7 +62,7 @@
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
-            @change="updateRange"
+
           ></v-calendar>
 
           <v-menu
@@ -130,7 +130,6 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    events: [],
 
     colors: [
       "blue",
@@ -145,6 +144,10 @@ export default {
   components: {
     CriarEvento,
     EditarEvento
+  },
+
+  created(){
+    this.$store.dispatch('updateEvents')
   },
   computed: {
     title() {
@@ -182,20 +185,20 @@ export default {
       });
     },
     events(){
-      return this.$store.events
+      return this.$store.getters.indexEvents
     }
   },
 
   mounted() {
     this.$refs.calendar.checkChange();
-    this.$root.$on("off", () => {
-      this.overlay = false;
-    });
-    this.$root.$on("update", () => {
-      this.updateRange();
-      this.selectedOpen = false;
-      this.selectedEvent.remove();
-    });
+
+    // this.$root.$on("update", () => {
+    //   this.updateRange();
+    //   this.selectedOpen = false;
+    //   this.selectedEvent.remove();
+    // });
+
+
   },
   methods: {
     viewDay({ date }) {
@@ -232,28 +235,28 @@ export default {
       nativeEvent.stopPropagation();
     },
     // Objetivo dia 3 de março: Todas as asyncs abaixo devem ser manipuladas usando vuex
-    async updateRange() {
-      let snapshot = (await EventoService.index()).data;
-      let events = [];
+    // async updateRange() {
+    //   let snapshot = (await EventoService.index()).data;
+    //   let events = [];
 
-      snapshot.forEach(arr => {
-        events.push({
-          id: arr.id,
-          name: arr.name,
-          start: this.formatDate(new Date(arr.data + " " + arr.start), true),
-          end: this.formatDate(new Date(arr.data + " " + arr.end), true),
-          color: this.colors[this.rnd(0, this.colors.length - 1)]
-        });
-      });
-      this.events = events;
-    },
+    //   snapshot.forEach(arr => {
+    //     events.push({
+    //       id: arr.id,
+    //       name: arr.name,
+    //       start: this.formatDate(new Date(arr.data + " " + arr.start), true),
+    //       end: this.formatDate(new Date(arr.data + " " + arr.end), true),
+    //       color: this.colors[this.rnd(0, this.colors.length - 1)]
+    //     });
+    //   });
+    //   this.events = events;
+    // },
     async deleteEvent(id) {
       try {
         await EventoService.remove({ id: parseInt(id) });
 
         this.selectedEvent = {};
         this.selectedOpen = false;
-        this.updateRange();
+        // this.updateRange();
       } catch (err) {
         console.log("Não foi possivel excluir");
       }
