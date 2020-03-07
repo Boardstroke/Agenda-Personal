@@ -46,7 +46,7 @@
         </v-list-item>
       </v-list>
       <!-- Modificar pois não está reposivo -->
-      <v-btn flat text style="top:220px"><v-icon>mdi-exit-to-app</v-icon>Logout</v-btn>
+      <v-btn text style="top:220px"><v-icon>mdi-exit-to-app</v-icon>Logout</v-btn>
 
   </v-layout>
   </v-navigation-drawer>

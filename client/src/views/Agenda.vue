@@ -2,17 +2,17 @@
   <v-container fluid fill-height>
     <v-row justify="end" class="fill-height">
       <v-col sm="12" md="12" lg="9">
-        <v-toolbar flat color="#E3F2FD" height="80px" light>
+        <v-toolbar flat text color="#E3F2FD" height="80px" light>
            <v-btn fab text small color="#00BCD4" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn fab text small color="#00BCD4" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-
-            <v-btn flat text @click="type = 'month'">Mês</v-btn>
-            <v-btn flat text @click="type = 'week'">Semana</v-btn>
-            <v-btn flat text @click="type = 'day'">Dia</v-btn>
+            <v-btn text @click="setToday()">Hoje </v-btn>
+            <v-btn text @click="type = 'month'">Mês</v-btn>
+            <v-btn text @click="type = 'week'">Semana</v-btn>
+            <v-btn text @click="type = 'day'">Dia</v-btn>
 
           <v-toolbar-title>{{ title }}</v-toolbar-title>
 
@@ -26,9 +26,8 @@
           >
             <v-icon color=#F5F5F5>mdi-plus</v-icon>
           </v-btn>
-          <div style="padding:0; margin:0;">
             <criar-evento v-model="ShowCreate" />
-          </div>
+
         </v-toolbar>
 
         <v-sheet style="height:600px">
@@ -61,9 +60,9 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
 
-              <div>
+
                 <editar-evento v-model="showEdit" />
-              </div>
+
 
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
