@@ -1,49 +1,30 @@
 <template>
   <v-container fluid fill-height>
     <v-row justify="end" class="fill-height">
-      <v-col sm="12" md="12" lg="10">
-        <v-toolbar flat color="green darken-2" height="80px">
-          <v-menu>
-            <template v-slot:activator="{ on }">
-              <v-btn outlined color="white darken-2" v-on="on" style="margin-right: 10px">
-                <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>mdi-menu-down</v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item @click="type = 'day'">
-                <v-list-item-title>Day</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = 'week'">
-                <v-list-item-title>Week</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = 'month'">
-                <v-list-item-title>Month</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-
-          <v-btn fab text small color="white darken-2" @click="prev">
+      <v-col sm="12" md="12" lg="9">
+        <v-toolbar flat color="#E3F2FD" height="80px" light>
+           <v-btn fab text small color="#00BCD4" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab text small color="white darken-2" @click="next">
+          <v-btn fab text small color="#00BCD4" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
+
+            <v-btn flat text @click="type = 'month'">Mês</v-btn>
+            <v-btn flat text @click="type = 'week'">Semana</v-btn>
+            <v-btn flat text @click="type = 'day'">Dia</v-btn>
+
           <v-toolbar-title>{{ title }}</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
           <v-btn
             dark
-            style="margin-left: 20px; background-color: #F34213;"
+            style="margin-left: 20px; background-color: #1565C0;"
             fab
             @click.stop="ShowCreate=true"
           >
-            <v-icon>mdi-plus</v-icon>
+            <v-icon color=#F5F5F5>mdi-plus</v-icon>
           </v-btn>
           <div style="padding:0; margin:0;">
             <criar-evento v-model="ShowCreate" />
@@ -54,7 +35,7 @@
           <v-calendar
             ref="calendar"
             v-model="focus"
-            color="primary"
+            color="indigo lighten-3"
             :events="events"
             :event-color="getEventColor"
             :now="today"
