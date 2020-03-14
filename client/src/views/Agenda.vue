@@ -87,6 +87,7 @@
 import EventoService from "@/services/EventoService";
 import CriarEvento from "@/components/Agenda/CriarEvento";
 import EditarEvento from "@/components/Agenda/EditarEvento";
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 // import Test from '@/components/Test'
 export default {
@@ -126,9 +127,6 @@ export default {
     EditarEvento
   },
 
-  created(){
-    this.$store.dispatch('updateEvents')
-  },
   computed: {
     title() {
       const { start, end } = this;
@@ -141,8 +139,8 @@ export default {
       const suffixMonth = startMonth === endMonth ? "" : endMonth;
 
       const startYear = start.year;
-      const endYear = end.year;
       const suffixYear = startYear === endYear ? "" : endYear;
+      const endYear = end.year;
 
       const startDay = start.day + this.nth(start.day);
       const endDay = end.day + this.nth(end.day);
@@ -164,23 +162,25 @@ export default {
         month: "long"
       });
     },
-    events(){
-      return this.$store.getters.indexEvents
-    }
+    ...mapState({
+      events: state => state.eventos.events
+    }),
+
+    ...mapGetters({
+        events: 'indexEvents'
+     })
   },
 
   mounted() {
     this.$refs.calendar.checkChange();
-
-    // this.$root.$on("update", () => {
-    //   this.updateRange();
-    //   this.selectedOpen = false;
-    //   this.selectedEvent.remove();
-    // });
-
-
   },
+  created(){
+    this.$store.dispatch('updateEvents')
+  },
+
   methods: {
+    ...mapActions("eventos", ["updateEvents"]),
+
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";

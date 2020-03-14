@@ -70,7 +70,7 @@ export default {
       {
         id: 2,
         to: '/user-profile',
-        icon: 'mdi-account',
+        icon: 'mdi-account-multiple-outline',
         text: 'Clientes'
       },
       {
