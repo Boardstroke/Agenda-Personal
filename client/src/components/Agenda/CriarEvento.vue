@@ -1,7 +1,7 @@
 <template>
 
     <v-dialog v-model="show" width="400px" >
-      <panel-agenda title="Marcar Horário" v-bind:class="cor">
+      <panel-agenda title="Marcar Horário">
         <v-card
 
           flat

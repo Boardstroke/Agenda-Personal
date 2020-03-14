@@ -1,60 +1,40 @@
 <template>
   <v-container fluid fill-height>
     <v-row justify="end" class="fill-height">
-      <v-col sm="12" md="12" lg="10">
-        <v-toolbar flat color="green darken-2" height="80px">
-          <v-menu>
-            <template v-slot:activator="{ on }">
-              <v-btn outlined color="white darken-2" v-on="on" style="margin-right: 10px">
-                <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>mdi-menu-down</v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item @click="type = 'day'">
-                <v-list-item-title>Day</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = 'week'">
-                <v-list-item-title>Week</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = 'month'">
-                <v-list-item-title>Month</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-
-          <v-btn fab text small color="white darken-2" @click="prev">
+      <v-col sm="12" md="12" lg="9">
+        <v-toolbar flat text color="#E3F2FD" height="80px" light>
+           <v-btn fab text small color="#00BCD4" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab text small color="white darken-2" @click="next">
+          <v-btn fab text small color="#00BCD4" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
+            <v-btn text @click="setToday()">Hoje </v-btn>
+            <v-btn text @click="type = 'month'">Mês</v-btn>
+            <v-btn text @click="type = 'week'">Semana</v-btn>
+            <v-btn text @click="type = 'day'">Dia</v-btn>
+
           <v-toolbar-title>{{ title }}</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
           <v-btn
             dark
-            style="margin-left: 20px; background-color: #F34213;"
+            style="margin-left: 20px; background-color: #1565C0;"
             fab
             @click.stop="ShowCreate=true"
           >
-            <v-icon>mdi-plus</v-icon>
+            <v-icon color=#F5F5F5>mdi-plus</v-icon>
           </v-btn>
-          <div style="padding:0; margin:0;">
             <criar-evento v-model="ShowCreate" />
-          </div>
+
         </v-toolbar>
 
         <v-sheet style="height:600px">
           <v-calendar
             ref="calendar"
             v-model="focus"
-            color="primary"
+            color="indigo lighten-3"
             :events="events"
             :event-color="getEventColor"
             :now="today"
@@ -62,7 +42,7 @@
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
-            @change="updateRange"
+
           ></v-calendar>
 
           <v-menu
@@ -80,9 +60,9 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
 
-              <div>
+
                 <editar-evento v-model="showEdit" />
-              </div>
+
 
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
@@ -107,6 +87,7 @@
 import EventoService from "@/services/EventoService";
 import CriarEvento from "@/components/Agenda/CriarEvento";
 import EditarEvento from "@/components/Agenda/EditarEvento";
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 // import Test from '@/components/Test'
 export default {
@@ -123,14 +104,13 @@ export default {
       day: "Day",
       "4day": "4 Days"
     },
-
+    today: null,
     id: null,
     start: null,
     end: null,
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    events: [],
 
     colors: [
       "blue",
@@ -146,6 +126,7 @@ export default {
     CriarEvento,
     EditarEvento
   },
+
   computed: {
     title() {
       const { start, end } = this;
@@ -158,8 +139,8 @@ export default {
       const suffixMonth = startMonth === endMonth ? "" : endMonth;
 
       const startYear = start.year;
-      const endYear = end.year;
       const suffixYear = startYear === endYear ? "" : endYear;
+      const endYear = end.year;
 
       const startDay = start.day + this.nth(start.day);
       const endDay = end.day + this.nth(end.day);
@@ -181,23 +162,25 @@ export default {
         month: "long"
       });
     },
-    events(){
-      return this.$store.events
-    }
+    ...mapState({
+      events: state => state.eventos.events
+    }),
+
+    ...mapGetters({
+        events: 'indexEvents'
+     })
   },
 
   mounted() {
     this.$refs.calendar.checkChange();
-    this.$root.$on("off", () => {
-      this.overlay = false;
-    });
-    this.$root.$on("update", () => {
-      this.updateRange();
-      this.selectedOpen = false;
-      this.selectedEvent.remove();
-    });
   },
+  created(){
+    this.$store.dispatch('updateEvents')
+  },
+
   methods: {
+    ...mapActions("eventos", ["updateEvents"]),
+
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
@@ -232,28 +215,28 @@ export default {
       nativeEvent.stopPropagation();
     },
     // Objetivo dia 3 de março: Todas as asyncs abaixo devem ser manipuladas usando vuex
-    async updateRange() {
-      let snapshot = (await EventoService.index()).data;
-      let events = [];
+    // async updateRange() {
+    //   let snapshot = (await EventoService.index()).data;
+    //   let events = [];
 
-      snapshot.forEach(arr => {
-        events.push({
-          id: arr.id,
-          name: arr.name,
-          start: this.formatDate(new Date(arr.data + " " + arr.start), true),
-          end: this.formatDate(new Date(arr.data + " " + arr.end), true),
-          color: this.colors[this.rnd(0, this.colors.length - 1)]
-        });
-      });
-      this.events = events;
-    },
+    //   snapshot.forEach(arr => {
+    //     events.push({
+    //       id: arr.id,
+    //       name: arr.name,
+    //       start: this.formatDate(new Date(arr.data + " " + arr.start), true),
+    //       end: this.formatDate(new Date(arr.data + " " + arr.end), true),
+    //       color: this.colors[this.rnd(0, this.colors.length - 1)]
+    //     });
+    //   });
+    //   this.events = events;
+    // },
     async deleteEvent(id) {
       try {
         await EventoService.remove({ id: parseInt(id) });
 
         this.selectedEvent = {};
         this.selectedOpen = false;
-        this.updateRange();
+        // this.updateRange();
       } catch (err) {
         console.log("Não foi possivel excluir");
       }

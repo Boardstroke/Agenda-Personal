@@ -1,6 +1,8 @@
 <template>
+
   <v-app>
     <toolbar/>
+    <link href="https://fonts.googleapis.com/css?family=Rubik:500|Spartan:500&display=swap" rel="stylesheet">
     <menu-drawer class="drawer"/>
     <div class="main-content">
     <router-view/>

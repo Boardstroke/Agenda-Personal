@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="show" width="400px">
-    <panel-agenda title="Editar Horário" v-bind:class="cor">
+    <panel-agenda title="Editar Horário">
       <v-card>
       <v-card-text>
         <v-text-field
