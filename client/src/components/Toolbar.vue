@@ -1,6 +1,7 @@
 <template>
   <v-card flat tile>
-    <v-toolbar dark flat dense app clipped color="green darken-1">
+    <v-toolbar light flat dense app clipped color="#E3F2FD">
+
       <v-btn icon fab>
         <v-icon>
           mdi-menu
@@ -13,7 +14,7 @@
       </v-btn>
 
       <v-btn icon>
-        <v-icon color=white>mdi-whatsapp</v-icon>
+        <v-icon>mdi-whatsapp</v-icon>
       </v-btn>
 
       <v-btn icon>
