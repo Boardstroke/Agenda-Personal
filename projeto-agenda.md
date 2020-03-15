@@ -1,4 +1,4 @@
-# COISAS A MELHOR_ <h1> 🚴
+# COISAS A MELHOR <h1> 🚴
 
 ![GitHub Logo](/images/logo.png)
 Format: ![Alt Text](url)
