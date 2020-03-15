@@ -3,12 +3,12 @@
 Vuex implementação 🙋‍♂️
 
 1. Alterar todos eventos para responder através do vuex e não mais atráves de eventos bus
-	* Agenda (✔️)
-	* Editar evento (✔️)
-	* Criar evento (✔️)
+	* [✔️] Agenda
+	* [✔️] Editar evento
+	* [✔️] Criar evento
 
 2. Estrutura que a Agenda deve seguir para atualizar eventos a partir de mudanças automáticas no servidor através do vuex e não mais atráves de eventos bus
-	* Assim que os componentes são criados devemos fazer a requisão para o servido (❌)
+	* [❌] Assim que os componentes são criados devemos fazer a requisão para o servido
 
 	``` js
 	created(){
@@ -16,7 +16,7 @@ Vuex implementação 🙋‍♂️
 	}
 	```
 
-	* Agora para atualizar os eventos usamos a propriedade computed do vue e mapState (❌)
+	* [❌] Agora para atualizar os eventos usamos a propriedade computed do vue e mapState
 
 	``` js
 	computed:{
@@ -26,11 +26,11 @@ Vuex implementação 🙋‍♂️
 	}
 	```
 
-	* E finalmente para criar e editar eventos usar mapActions: (❌)
+	* [❌] E finalmente para criar e editar eventos usar mapActions:
 
 	``` js
 	computed:{
-		...mapActions("eventos", ["criar"])  -> this.criar()
+		...mapActions("eventos", ["criar"])  // -> this.criar()
 	}
 	```
 
