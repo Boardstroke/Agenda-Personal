@@ -1,6 +1,6 @@
  # COISAS A MELHOR 🚴 <h1>
 
-![](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg=80x80)
+![](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg =80x80)
 
 Vuex implementação 🙋‍♂️
 
