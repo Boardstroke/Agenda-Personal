@@ -1,7 +1,6 @@
  # COISAS A MELHOR 🚴 <h1>
 
-![Agenda-Logo](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg)
-Format: ![Alt Text](url)
+![](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg=80x80)
 
 Vuex implementação 🙋‍♂️
 
