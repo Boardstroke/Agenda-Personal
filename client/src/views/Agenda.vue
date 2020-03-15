@@ -3,16 +3,16 @@
     <v-row justify="end" class="fill-height">
       <v-col sm="12" md="12" lg="9">
         <v-toolbar flat text color="#E3F2FD" height="80px" light>
-           <v-btn fab text small color="#00BCD4" @click="prev">
+          <v-btn fab text small color="#00BCD4" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn fab text small color="#00BCD4" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-            <v-btn text @click="setToday()">Hoje </v-btn>
-            <v-btn text @click="type = 'month'">Mês</v-btn>
-            <v-btn text @click="type = 'week'">Semana</v-btn>
-            <v-btn text @click="type = 'day'">Dia</v-btn>
+          <v-btn text @click="setToday()">Hoje</v-btn>
+          <v-btn text @click="type = 'month'">Mês</v-btn>
+          <v-btn text @click="type = 'week'">Semana</v-btn>
+          <v-btn text @click="type = 'day'">Dia</v-btn>
 
           <v-toolbar-title>{{ title }}</v-toolbar-title>
 
@@ -24,10 +24,9 @@
             fab
             @click.stop="ShowCreate=true"
           >
-            <v-icon color=#F5F5F5>mdi-plus</v-icon>
+            <v-icon color="#F5F5F5">mdi-plus</v-icon>
           </v-btn>
-            <criar-evento v-model="ShowCreate" />
-
+          <criar-evento v-model="ShowCreate" />
         </v-toolbar>
 
         <v-sheet style="height:600px">
@@ -42,7 +41,6 @@
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
-
           ></v-calendar>
 
           <v-menu
@@ -60,9 +58,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
 
-
-                <editar-evento v-model="showEdit" />
-
+              <editar-evento v-model="showEdit" />
 
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
@@ -87,16 +83,14 @@
 import EventoService from "@/services/EventoService";
 import CriarEvento from "@/components/Agenda/CriarEvento";
 import EditarEvento from "@/components/Agenda/EditarEvento";
-import {mapState, mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 
 // import Test from '@/components/Test'
 export default {
   data: () => ({
     focus: "",
-
     ShowCreate: false,
     showEdit: false,
-
     type: "month",
     typeToLabel: {
       month: "Month",
@@ -110,18 +104,9 @@ export default {
     end: null,
     selectedEvent: {},
     selectedElement: null,
-    selectedOpen: false,
-
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "green",
-      "orange",
-      "grey darken-1"
-    ]
+    selectedOpen: false
   }),
+
   components: {
     CriarEvento,
     EditarEvento
@@ -162,24 +147,21 @@ export default {
         month: "long"
       });
     },
-    ...mapState({
-      events: state => state.eventos.events
-    }),
 
     ...mapGetters({
-        events: 'indexEvents'
-     })
+      events: "eventos/indexEvents"
+    })
   },
 
   mounted() {
     this.$refs.calendar.checkChange();
   },
-  created(){
-    this.$store.dispatch('updateEvents')
+  created() {
+    this.$store.dispatch("eventos/getAllEvents");
   },
 
   methods: {
-    ...mapActions("eventos", ["updateEvents"]),
+    ...mapActions("eventos", ["deleteEvent"]),
 
     viewDay({ date }) {
       this.focus = date;
@@ -214,33 +196,6 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    // Objetivo dia 3 de março: Todas as asyncs abaixo devem ser manipuladas usando vuex
-    // async updateRange() {
-    //   let snapshot = (await EventoService.index()).data;
-    //   let events = [];
-
-    //   snapshot.forEach(arr => {
-    //     events.push({
-    //       id: arr.id,
-    //       name: arr.name,
-    //       start: this.formatDate(new Date(arr.data + " " + arr.start), true),
-    //       end: this.formatDate(new Date(arr.data + " " + arr.end), true),
-    //       color: this.colors[this.rnd(0, this.colors.length - 1)]
-    //     });
-    //   });
-    //   this.events = events;
-    // },
-    async deleteEvent(id) {
-      try {
-        await EventoService.remove({ id: parseInt(id) });
-
-        this.selectedEvent = {};
-        this.selectedOpen = false;
-        // this.updateRange();
-      } catch (err) {
-        console.log("Não foi possivel excluir");
-      }
-    },
 
     async selecionarEventoPorId(id) {
       try {
@@ -259,15 +214,6 @@ export default {
         ? "th"
         : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
     },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-    formatDate(a, withTime) {
-      return withTime
-        ? `${a.getFullYear()}-${a.getMonth() +
-            1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
-    }
   }
 };
 </script>

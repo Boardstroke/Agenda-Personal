@@ -12,14 +12,21 @@ const getters = {
 };
 
 const actions = {
-  updateEvents: async({commit}) => {
+  getAllEvents: async({commit}) => {
     let snapshot = (await EventoService.index()).data;
     snapshot.forEach(event => {
       commit('setEvents', event);
     });
   },
 
-
+  deleteEvent: async({commit}, id) => {
+    try {
+      await EventoService.remove({"id" : id});
+      commit('removeEvent');
+    } catch (error) {
+      console.log("Não foi possivel Excluir Evento");
+    }
+  }
 };
 
 const mutations = {
@@ -35,6 +42,11 @@ const mutations = {
       color: 'blue'
     });
   },
+  removeEvent(state,id){
+    state.events.filter(event => event.id != id);
+  }
+
+
 
 
 };
@@ -48,5 +60,6 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
+  namespaced:true
 };

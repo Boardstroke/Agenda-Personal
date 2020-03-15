@@ -1,0 +1,39 @@
+# COISAS A MELHOR_ <h1> 🚴
+
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+
+Vuex implementação 🙋‍♂️
+
+1. Alterar todos eventos para responder através do vuex e não mais atráves de eventos bus
+	* Agenda (✔️)
+	* Editar evento (✔️)
+	* Criar evento (✔️)
+
+2. Estrutura que a Agenda deve seguir para atualizar eventos a partir de mudanças automáticas no servidor através do vuex e não mais atráves de eventos bus
+	* Assim que os componentes são criados devemos fazer a requisão para o servido (❌)
+
+	``` js
+		created(){
+			this.$store.dispatch('eventos/index)
+		}
+	```
+
+	* Agora para atualizar os eventos usamos a propriedade computed do vue e mapState (❌)
+
+	``` js
+		computed:{
+			...mapState({
+				eventos: state => state.eventos.event
+			})
+	}
+	```
+
+	* E finalmente para criar e editar eventos usar mapActions: (❌)
+
+	``` js
+	computed:{
+		...mapActions("eventos", ["criar"])  -> this.criar()
+	}
+	```
+
