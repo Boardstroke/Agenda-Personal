@@ -1,6 +1,6 @@
-# COISAS A MELHOR_ <h1> 🚴
+ # COISAS A MELHOR 🚴 <h1>
 
-![GitHub Logo](/images/logo.png)
+![Agenda-Logo](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg)
 Format: ![Alt Text](url)
 
 Vuex implementação 🙋‍♂️
