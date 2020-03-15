@@ -1,7 +1,5 @@
  # COISAS A MELHOR 🚴 <h1>
 
-![](https://cdn.dribbble.com/users/60166/screenshots/4312202/drop___circle_logo.jpg =250x)
-
 Vuex implementação 🙋‍♂️
 
 1. Alterar todos eventos para responder através do vuex e não mais atráves de eventos bus
