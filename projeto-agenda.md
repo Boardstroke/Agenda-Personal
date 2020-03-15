@@ -11,18 +11,18 @@ Vuex implementação 🙋‍♂️
 	* Assim que os componentes são criados devemos fazer a requisão para o servido (❌)
 
 	``` js
-		created(){
-			this.$store.dispatch('eventos/index)
-		}
+	created(){
+		this.$store.dispatch('eventos/index)
+	}
 	```
 
 	* Agora para atualizar os eventos usamos a propriedade computed do vue e mapState (❌)
 
 	``` js
-		computed:{
-			...mapState({
-				eventos: state => state.eventos.event
-			})
+	computed:{
+		...mapState({
+			eventos: state => state.eventos.event
+		})
 	}
 	```
 
