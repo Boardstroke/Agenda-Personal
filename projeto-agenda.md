@@ -40,8 +40,8 @@ Vuex implementação 🙋‍♂️
 3. Entender Melhor REST 💻️:
 
 	* Qual é melhor forma de responder as requisões?
-		[❌] .toJSON?
-		[❌] raw
+		* [❔] .toJSON?
+		* [❔] raw
 
 	* Qual o padrão pra lidar com erros? No momento estou usando console.log() para mostrar o erro
 
