@@ -100,7 +100,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn @click.stop="show=false" icon><v-icon color="error">mdi-close</v-icon></v-btn>
-        <v-btn @click.stop="atualizarEvento()" icon><v-icon color="green darken-1">mdi-check</v-icon></v-btn>
+        <v-btn @click.stop="exibir()" icon><v-icon color="green darken-1">mdi-check</v-icon></v-btn>
 
       </v-card-actions>
       </v-card>
@@ -125,17 +125,6 @@
         menu3:false
       }
     },
-
-    // async mounted() {
-    //   await this.$root.$on('DadosDoEvento', (this.eventSelected)=>{
-    //     this.id = this.eventSelected.id
-    //     this.name = this.eventSelected.name
-    //     this.data = this.eventSelected.data
-    //     this.start = this.eventSelected.start
-    //     this.end = this.eventSelected.end
-    //   })
-    // },
-
     props:{
       value: Boolean
     },
@@ -150,10 +139,19 @@
         },
       },
 
+
+
       ...mapGetters('eventos',{
         eventSelected: 'getEventSelected'
       }),
 
+    },
+    created(){
+      this.id = this.eventSelected.id
+      this.name = this.eventSelected.name
+      this.data = this.eventSelected.data
+      this.start = this.eventSelected.start
+      this.end = this.eventSelected.end
     },
 
     components:{
@@ -170,6 +168,10 @@
           start: this.start,
           end: this.end,
         });
+      },
+
+      exibir(){
+        console.log(this.eventSelected)
       }
     }
   }

@@ -35,6 +35,7 @@ Vuex implementação 🙋‍♂️
 		...mapActions("eventos", ["criar"])  // -> this.criar()
 	}
 	```
+	* A edição está pendente pelo item 4
 
 3. Entender Melhor REST 💻️:
 
@@ -43,6 +44,19 @@ Vuex implementação 🙋‍♂️
 		[] raw
 
 	* Qual o padrão pra lidar com erros? No momento estou usando console.log() para mostrar o erro
+
+4. Eventos 📅:
+
+	* [] No momento um evento tem quatro propriedades
+		```js
+			const event = {
+				id: integer
+				name: string,
+				start: string --> (DD/MM/YYYY  HH:MM)
+				end: string  --> (DD/MM/YYYY  HH:MM)
+			}
+		```
+		É necessário refatorar o evento para separar o dia das propriedades start e end. Isso vai implicar em mudanças na própria interface da agenda
 
 # Descobertas  📑 <h2>
 

@@ -2,7 +2,7 @@ import EventoService from '@/services/EventoService';
 
 const state = {
   events: [],
-  eventSelected: {}
+  eventSelected: null
 };
 
 const getters = {
@@ -26,8 +26,9 @@ const actions = {
 
   createEvent: async({commit}, information) => {
     try {
-      const event = await EventoService.criarEvento(information);
-      commit.setEvents(event);
+      const event = (await EventoService.criarEvento(information)).data;
+      console.log(event);
+      commit("setEvents", event);
     } catch (error) {
       console.log("Não foi possivel criar Evento");
     }
@@ -53,8 +54,8 @@ const actions = {
   },
 
   getEventById: ({commit}, id) =>{
-    const gettedEvent = state.events.filter(event => event.id == id)
-    commit('selectEvent', gettedEvent);
+    const gettedEvent = state.events.filter(event => event.id == id);
+    commit('selectEvent', gettedEvent[0]);
   }
 };
 
@@ -62,16 +63,16 @@ const mutations = {
   setEvents(state, event){
     const data_inicial =  new Date(event.data + " " + event.start);
     const data_final =  new Date(event.data + " " + event.end);
-    const events = [];
 
-    events.push({
+
+    state.events.push({
       id: event.id,
       name: event.name,
       start: formatDate(data_inicial),
       end: formatDate(data_final),
       color: 'blue'
     });
-    state.events = events;
+
   },
 
   removeEvent(state,id){
