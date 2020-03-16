@@ -30,17 +30,14 @@ module.exports = {
   async remove (req, res){
     try{
       const evento = await Evento.findByPk(req.body.id);
-      const eventoJson = evento.toJSON()
       evento.destroy();
-
-      res.send({
-        evento: eventoJson
+      res.status(200).send({
+        message: "Conseguimos apagar o evento"
       });
-
     } catch(err){
       res.status(400).send({
         error: "Não foi possivel excluir evento, possivelmente já tenha sido excluido"
-      })
+      });
     }
   },
 
@@ -71,12 +68,10 @@ module.exports = {
         data: req.body.data,
         start: req.body.start,
         end: req.body.end
-      })
+      });
 
-      const eventoJson = evento.toJSON()
-      res.status(200).send({
-        evento: eventoJson
-      })
+      res.status(200).send(evento);
+
     } catch(err){
       res.status(400).send({
         error: "Não foi possivel atualizar o evento"

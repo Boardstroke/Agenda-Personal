@@ -53,7 +53,7 @@
               <v-btn
                 icon
                 dark
-                @click.stop="showEdit=true && selecionarEventoPorId(selectedEvent.id)"
+                @click.stop="showEdit=true && getEventById(selectedEvent.id)"
               >
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -80,10 +80,9 @@
 </template>
 
 <script>
-import EventoService from "@/services/EventoService";
 import CriarEvento from "@/components/Agenda/CriarEvento";
 import EditarEvento from "@/components/Agenda/EditarEvento";
-import { mapGetters, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 // import Test from '@/components/Test'
 export default {
@@ -147,21 +146,18 @@ export default {
         month: "long"
       });
     },
-
-    ...mapGetters({
-      events: "eventos/indexEvents"
-    })
+    ...mapState({
+			events: state => state.eventos.events
+		}),
   },
 
-  mounted() {
-    this.$refs.calendar.checkChange();
-  },
   created() {
     this.$store.dispatch("eventos/getAllEvents");
+    this.$refs.calendar.checkChange();
   },
 
   methods: {
-    ...mapActions("eventos", ["deleteEvent"]),
+    ...mapActions("eventos", ["deleteEvent", "getEventById"]),
 
     viewDay({ date }) {
       this.focus = date;
@@ -197,16 +193,8 @@ export default {
       nativeEvent.stopPropagation();
     },
 
-    async selecionarEventoPorId(id) {
-      try {
-        const response = await EventoService.selecionarEventoPorId({
-          id: parseInt(id)
-        });
-
-        this.$root.$emit("DadosDoEvento", response.data);
-      } catch (err) {
-        console.log("Não Possivel selcionar elemento");
-      }
+    selecionarEventoPorId(id) {
+      this.getEventById(id)
     },
 
     nth(d) {

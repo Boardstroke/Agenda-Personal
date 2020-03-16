@@ -108,9 +108,10 @@
 </template>
 
   <script>
-import EventoService from "@/services/EventoService";
-
 import PanelAgenda from "@/components/Agenda/PanelAgenda";
+
+import {mapActions} from 'vuex'
+
 export default {
   data() {
     return {
@@ -151,21 +152,11 @@ export default {
 
       this.$root.$emit("update");
     },
+    ...mapActions("eventos", ["createEvent"]),
 
-    async criarEvento() {
-      try {
-        const response = await EventoService.criarEvento({
-          name: this.name,
-          data: this.data,
-          start: this.start,
-          end: this.end
-        });
-        this.overlayOff();
-        this.show = false;
-        console.log(response);
-      } catch (err) {
-        this.error = err.response.data.error;
-      }
+    criarEvento() {
+      this.createEvent({name: this.name, data: this.data, start: this.start, end: this.end})
+      this.overlayOff()
     }
   }
 };

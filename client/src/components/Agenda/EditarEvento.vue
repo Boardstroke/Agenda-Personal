@@ -109,33 +109,32 @@
 </template>
 
 <script>
-  import EventoService from '@/services/EventoService'
-
   import PanelAgenda from '@/components/Agenda/PanelAgenda'
+  import {mapActions, mapGetters} from 'vuex'
 
   export default {
     data ()  {
       return {
         id: null,
-        name: '',
-        data:'',
+        name:  '',
+        data: '',
         start: '',
-        end: '',
+        end:  '',
         menu:false,
         menu2:false,
         menu3:false
       }
     },
 
-    async mounted() {
-      await this.$root.$on('DadosDoEvento', (response)=>{
-        this.id = response.id
-        this.name = response.name
-        this.data = response.data
-        this.start = response.start
-        this.end = response.end
-      })
-    },
+    // async mounted() {
+    //   await this.$root.$on('DadosDoEvento', (this.eventSelected)=>{
+    //     this.id = this.eventSelected.id
+    //     this.name = this.eventSelected.name
+    //     this.data = this.eventSelected.data
+    //     this.start = this.eventSelected.start
+    //     this.end = this.eventSelected.end
+    //   })
+    // },
 
     props:{
       value: Boolean
@@ -150,31 +149,27 @@
           this.$emit('input', value)
         },
       },
+
+      ...mapGetters('eventos',{
+        eventSelected: 'getEventSelected'
+      }),
+
     },
 
     components:{
       PanelAgenda
     },
     methods:{
-      overlayOff: function (){
-        this.$root.$emit('update')
-      },
+      ...mapActions("eventos", ["updateEvent"]),
 
-      async atualizarEvento(){
-        try{
-          const response = await EventoService.atualizar({
-            id: this.id,
-            name: this.name,
-            data: this.data,
-            start: this.start,
-            end: this.end,
-          })
-          this.overlayOff()
-          this.show = false;
-        console.log(response, "resposta")
-        }catch (err){
-          this.error = err.response.data.error
-        }
+      atualizarEvento(){
+        this.updateEvent({
+          id: this.id,
+          name: this.name,
+          data: this.data,
+          start: this.start,
+          end: this.end,
+        });
       }
     }
   }
