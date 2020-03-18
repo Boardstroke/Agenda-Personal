@@ -7,7 +7,7 @@
           id="name"
           name="name"
           ref="name"
-          v-model="name"
+          v-model="eventSelected.name"
           label="Nome"
           required
           prepend-icon="mdi-account"
@@ -25,7 +25,7 @@
             <v-text-field
               id="data"
               name="data"
-              v-model="data"
+              v-model="eventSelected.data"
               label="Data"
               prepend-icon="mdi-calendar"
               readonly
@@ -48,7 +48,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="start"
+              v-model="eventSelected.start"
               label="Começo"
               prepend-icon="mdi-clock"
               readonly
@@ -57,8 +57,8 @@
           </template>
           <v-time-picker
             v-if="menu2"
-            v-model="start"
-            :max="end"
+            v-model="eventSelected.start"
+            :max="eventSelected.end"
             full-width
             @click:minute="$refs.menu2.save(start)"
           ></v-time-picker>
@@ -69,7 +69,7 @@
           v-model="menu3"
           :close-on-content-click="false"
           :nudge-right="40"
-          :return-value.sync="end"
+          :return-value.sync="eventSelected.end"
           transition="scale-transition"
           offset-y
           max-width="290px"
@@ -77,7 +77,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="end"
+              v-model="eventSelected.end"
               label="Fim"
               prepend-icon="mdi-clock"
               readonly
@@ -86,8 +86,8 @@
           </template>
           <v-time-picker
             v-if="menu3"
-            v-model="end"
-            :min="start"
+            v-model="eventSelected.end"
+            :min="eventSelected.start"
             full-width
             @click:minute="$refs.menu3.save(end)"
           ></v-time-picker>
@@ -146,22 +146,15 @@
       }),
 
     },
-    created(){
-      this.id = this.eventSelected.id
-      this.name = this.eventSelected.name
-      this.data = this.eventSelected.data
-      this.start = this.eventSelected.start
-      this.end = this.eventSelected.end
-    },
 
     components:{
       PanelAgenda
     },
     methods:{
-      ...mapActions("eventos", ["updateEvent"]),
+      ...mapActions("eventos", ["editEvent"]),
 
       atualizarEvento(){
-        this.updateEvent({
+        this.editEvent({
           id: this.id,
           name: this.name,
           data: this.data,
@@ -171,7 +164,14 @@
       },
 
       exibir(){
-        console.log(this.eventSelected)
+        console.log(this.eventSelected.name)
+      },
+
+      formatDate(str, fullDate){
+        const date = new Date(str)
+        return fullDate
+        ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        : `${date.getHours()}:${date.getMinutes()}`
       }
     }
   }

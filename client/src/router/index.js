@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 import HelloWorld from '@/views/HelloWorld';
 import Agenda from '@/views/Agenda';
+import Clientes from '@/views/Clientes';
 import Test from '@/views/Test';
 
 const routes = [
@@ -17,6 +18,11 @@ const routes = [
     path:'/agenda',
     name: Agenda,
     component: Agenda
+  },
+  {
+    path:'/clientes',
+    name: Clientes,
+    component: Clientes
   },
   {
     path:'/test',

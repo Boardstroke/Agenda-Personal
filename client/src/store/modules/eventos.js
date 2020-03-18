@@ -2,12 +2,12 @@ import EventoService from '@/services/EventoService';
 
 const state = {
   events: [],
-  eventSelected: null
+  eventSelected: {}
 };
 
 const getters = {
   getEventSelected(){
-    return state.eventSelected;
+     return state.eventSelected;
   }
 };
 
@@ -45,11 +45,11 @@ const actions = {
 
   editEvent: async({commit}, informacao) => {
     try {
-      const response = await EventoService.atualizar(informacao).data;
+      const response = (await EventoService.atualizar(informacao)).data;
       commit("removeEvent", informacao.id);
-      commit("setEvents", response.evento);
+      commit("setEvents", response);
     } catch (error) {
-      console.log("Não foi possivel editar Evento");
+      console.log(error);
     }
   },
 

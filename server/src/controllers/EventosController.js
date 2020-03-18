@@ -1,49 +1,46 @@
-const {Evento} = require('../models')
-
+const { Evento } = require("../models");
 
 module.exports = {
-
-  async criarEvento (req,res){
-    try{
+  async criarEvento(req, res) {
+    try {
       const evento = await Evento.create(req.body);
       res.send(evento);
-
-    } catch(err){
-
+    } catch (err) {
       res.status(400).send({
-        error : 'error'
-      })
+        error: "error"
+      });
     }
   },
 
-  async index (req, res){
-    try{
+  async index(req, res) {
+    try {
       const eventos = await Evento.findAll();
-      res.send(eventos)
-    } catch(err){
+      res.send(eventos);
+    } catch (err) {
       res.status(400).send({
         error: "Banco de dados desconectado"
-      })
+      });
     }
   },
 
-  async remove (req, res){
-    try{
+  async remove(req, res) {
+    try {
       const evento = await Evento.findByPk(req.body.id);
       evento.destroy();
       res.status(200).send({
         message: "Conseguimos apagar o evento"
       });
-    } catch(err){
+    } catch (err) {
       res.status(400).send({
-        error: "Não foi possivel excluir evento, possivelmente já tenha sido excluido"
+        error:
+          "Não foi possivel excluir evento, possivelmente já tenha sido excluido"
       });
     }
   },
 
-  async selecionarPorId (req, res){
-    try{
-      const evento = await Evento.findByPk(req.body.id)
+  async selecionarPorId(req, res) {
+    try {
+      const evento = await Evento.findByPk(req.body.id);
 
       res.send({
         id: evento.id,
@@ -51,17 +48,17 @@ module.exports = {
         data: evento.data,
         start: evento.start,
         end: evento.end
-      })
-    } catch(err){
+      });
+    } catch (err) {
       res.status(400).send({
         error: "Não foi possivel encontrar o evento"
-      })
+      });
     }
   },
 
-  async atualizar(req, res){
-    try{
-      const evento = await Evento.findByPk(req.body.id)
+  async atualizar(req, res) {
+    try {
+      const evento = await Evento.findByPk(req.body.id);
 
       evento.update({
         name: req.body.name,
@@ -70,12 +67,12 @@ module.exports = {
         end: req.body.end
       });
 
-      res.status(200).send(evento);
+      res.send(evento.dataValues);
 
-    } catch(err){
+    } catch (err) {
       res.status(400).send({
         error: "Não foi possivel atualizar o evento"
-      })
+      });
     }
   }
-}
+};

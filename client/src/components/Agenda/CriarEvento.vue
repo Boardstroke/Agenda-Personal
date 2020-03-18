@@ -150,13 +150,15 @@ export default {
       this.start = "";
       this.end = "";
 
-      this.$root.$emit("update");
+      this.show = false
     },
     ...mapActions("eventos", ["createEvent"]),
 
     criarEvento() {
       this.createEvent({name: this.name, data: this.data, start: this.start, end: this.end})
+
       this.overlayOff()
+
     }
   }
 };
