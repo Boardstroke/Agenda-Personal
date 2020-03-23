@@ -10,8 +10,8 @@ module.exports = (app) => {
   app.get('/agenda/eventos', EventosController.index)
 
   // Rotas referentes criação, edição, etc. Do cliente
-  app.post('/cliente/criar', ClienteController.criarCliente)
-  app.post('/cliente/addServico', ClienteController.addServico)
-  app.get('/cliente/index', ClienteController.index)
+  app.post('/clientes/criar', ClienteController.criarCliente)
+  app.post('/clientes/addServico', ClienteController.addServico)
+  app.get('/clientes/index', ClienteController.index)
 
 }

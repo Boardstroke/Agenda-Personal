@@ -5,10 +5,10 @@
         <v-col sm="12" md="12" lg="12">
 
           <v-toolbar flat text color="#C5E1A5" height="80px" light>
-            <v-btn fab text small color="#00BCD4" @click="prev">
+            <v-btn fab text small @click="prev">
               <v-icon small>mdi-chevron-left</v-icon>
             </v-btn>
-            <v-btn fab text small color="#00BCD4" @click="next">
+            <v-btn fab text small @click="next">
               <v-icon small>mdi-chevron-right</v-icon>
             </v-btn>
             <v-btn text @click="setToday()">Hoje</v-btn>
@@ -117,8 +117,10 @@ export default {
   },
 
   created() {
-    this.getAllEvents();
-    // this.$refs.calendar.checkChange();
+    if(this.events == 0){
+      this.getAllEvents();
+    }
+
   },
 
   methods: {
